@@ -1,7 +1,6 @@
 @page "/Login"
 @layout HomeLayout
-@inject AuthService AuthService
-@inject NavigationManager Navigation
+@* @inject NavigationManager Navigation *@
 
 
 <head>
@@ -16,7 +15,7 @@
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="#">Browse Theses</a></li>
+                <li><a href="/Explore">Browse Theses</a></li>
                 <li><a href="/About">About</a></li>
                 <li><a href="/Signup" class="btn">Sign Up</a></li>
                 <li><a href="/Login" class="btn">Login</a></li>
@@ -26,30 +25,32 @@
     <div class="auth-container">
         <h2>Login to ThesisHub</h2>
 
-        @if (!string.IsNullOrEmpty(message))
+        @* @if (!string.IsNullOrEmpty(message))
 {
     <p>@message</p>
-}
+} *@
 
-       <EditForm Model="loginModel" OnValidSubmit="HandleLogin">
-    <DataAnnotationsValidator />
+       <form Model="loginModel" OnValidSubmit="HandleLogin">
+    @* <DataAnnotationsValidator /> *@
             <div class="input-group">
                 <label for="email">Email</label>
-                <InputText type="email" id="email"  @bind-Value="loginModel.Email" placeholder="Enter your email" required  />
+                @* @bind-Value="loginModel.Email" *@
+              <input type="email" id="email"   placeholder="Enter your email" required  /> 
             </div>
             <div class="input-group">
                 <label for="password">Password</label>
-                <InputText type="password" id="password"  @bind-Value="loginModel.Password" placeholder="Enter your password" required />
+                @* @bind-Value="loginModel.Password" *@
+                <input type="password" id="password"  placeholder="Enter your password" required /> 
             </div>
             <button type="submit" class="btn2">Login</button>
-            <p class="switch">Don't have an account? <a href="signup.html">Sign up</a></p>
-      </EditForm>
+            <p class="switch">Don't have an account? <a href="/Signup">Sign up</a></p>
+      </form>
     </div>
 
 </body>
 
 @code {
-    private User loginModel = new User();
+    @* private User loginModel = new User();
     private string message = "";
 
     private async Task HandleLogin()
@@ -64,6 +65,6 @@
         {
             message = "Invalid email or password.";
         }
-    }
+    } *@
 }
 

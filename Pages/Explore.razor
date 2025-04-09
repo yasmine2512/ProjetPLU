@@ -1,0 +1,131 @@
+ @page "/Explore"
+@layout HomeLayout 
+
+@inject HttpClient Http
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - ThesisHub</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">ThesisHub</div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/Explore">Browse Theses</a></li>
+                <li><a href="/About" class="active">About</a></li>
+                <li><a href="/Signup" class="btn">Sign Up</a></li>
+                <li><a href="/Login" class="btn">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+       <div class="search-container">
+    <input type="text" @bind="searchQuery" placeholder="Search by title, field, or keyword..." />
+    <button @onclick="SearchTheses">Search</button>
+        </div>
+
+<div class="filters">
+    <label>Field:</label>
+    <select @bind="selectedField">
+        <option value="">All</option>
+        @foreach (var field in fields)
+        {
+            <option value="@field">@field</option>
+        }
+    </select>
+    
+    <label>University:</label>
+    <select @bind="selectedUniversity">
+        <option value="">All</option>
+        @foreach (var uni in universities)
+        {
+            <option value="@uni">@uni</option>
+        }
+    </select>
+</div>
+
+@if (isLoading)
+{
+    <p style="margin: 30px;">Loading...</p>
+}
+else if (theses.Count == 0)
+{
+    <p style="margin: 30px;">No theses found.</p>
+}
+else
+{
+    <div class="thesis-list">
+        @foreach (var thesis in theses)
+        {
+            <div class="thesis-card">
+                <h3>@thesis.Title</h3>
+                <p><strong>Field:</strong> @thesis.Field</p>
+                <p><strong>University:</strong> @thesis.University</p>
+                <p><strong>Keywords:</strong> @thesis.Keywords</p>
+                <p><strong>Author:</strong> @thesis.AuthorName</p>
+                <p><strong>Date:</strong> @thesis.Date.ToShortDateString()</p>
+                <button @onclick="() => AddToFavorites(thesis.MemoireID)">⭐ Favorite</button>
+            </div>
+        }
+    </div>
+}
+</body>
+
+@code {
+    private string searchQuery = "";
+    private string selectedField = "";
+    private string selectedUniversity = "";
+    private bool isLoading = true;
+    private List<string> fields = new();
+    private List<string> universities = new();
+    private List<Thesis> theses = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadFilters();
+        await LoadTheses();
+    }
+
+    private async Task LoadFilters()
+    {
+        fields = await Http.GetFromJsonAsync<List<string>>("/api/theses/fields");
+        universities = await Http.GetFromJsonAsync<List<string>>("/api/theses/universities");
+    }
+
+    private async Task LoadTheses()
+    {
+        isLoading = true;
+        theses = await Http.GetFromJsonAsync<List<Thesis>>("/api/theses");
+        isLoading = false;
+    }
+
+    private async Task SearchTheses()
+    {
+        isLoading = true;
+        theses = await Http.GetFromJsonAsync<List<Thesis>>($"/api/theses/search?query={searchQuery}&field={selectedField}&university={selectedUniversity}");
+        isLoading = false;
+    }
+
+    private async Task AddToFavorites(int memoireId)
+    {
+        await Http.PostAsJsonAsync("/api/favorites/add", new { MemoireID = memoireId });
+    }
+
+    private class Thesis
+    {
+        public int MemoireID { get; set; }
+        public string Title { get; set; }
+        public string Field { get; set; }
+        public string University { get; set; }
+        public string Keywords { get; set; }
+        public string AuthorName { get; set; }
+        public DateTime Date { get; set; }
+    }
+}
+

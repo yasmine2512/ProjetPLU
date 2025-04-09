@@ -9,7 +9,7 @@ main {
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-color: #002855;
 }
 
 .top-row {
@@ -35,6 +35,9 @@ main {
         overflow: hidden;
         text-overflow: ellipsis;
     }
+    .content{
+        margin-left: 250px;
+    }
 
 @media (max-width: 640.98px) {
     .top-row {
@@ -52,10 +55,15 @@ main {
     }
 
     .sidebar {
+        position: fixed;
+    top: 0; 
+    left: 0;
+    width: 250px;
         width: 250px;
-        height: 100vh;
-        position: sticky;
+         height: 100vh; 
+     
         top: 0;
+        z-index: 999;
     }
 
     .top-row {

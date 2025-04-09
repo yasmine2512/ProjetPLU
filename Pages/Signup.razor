@@ -1,37 +1,52 @@
 @page "/Signup"
 @layout HomeLayout
-@inject AuthService AuthService
-@inject NavigationManager Navigation
-@using Microsoft.AspNetCore.Components.Forms
+@* @inject AuthService AuthService
+@inject NavigationManager Navigation *@
 
 
 
+<body>
+    
 
+<header>
+        <div class="logo">ThesisHub</div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/Explore">Browse Theses</a></li>
+                <li><a href="/About">About</a></li>
+                <li><a href="/Signup" class="btn">Sign Up</a></li>
+                <li><a href="/Login" class="btn">Login</a></li>
+            </ul>
+        </nav>
+    </header>
     
     <div class="auth-container">
         <h2>Create an Account</h2>
 
-        @if (!string.IsNullOrEmpty(message))
+        @* @if (!string.IsNullOrEmpty(message))
 {
     <p class="error">@message</p>
-}
+} *@
 
-       <EditForm Model="newUser" OnValidSubmit="HandleSignup">
-    <DataAnnotationsValidator />
+       <form Model="newUser" OnValidSubmit="HandleSignup">
+    @* <DataAnnotationsValidator /> *@
 
 
             
             <!-- Full Name -->
             <div class="input-group">
                 <label for="name">Full Name</label>
-                <InputText id="name" @bind-Value="newUser.FullName" placeholder="Enter your full name" required />
+                @* @bind-Value="newUser.FullName" *@
+                <input id="name"  placeholder="Enter your full name" required />
             </div>
 
             <!-- Role Selection -->
             <div class="input-group">
-                <label for="role">Sign up as &nbsp; </label><br> 
-                <br>
-                <select id="role" @bind="newUser.Role" required>
+                <label for="role">Sign up as &nbsp; &nbsp; &nbsp; </label>  
+       
+                @* @bind="newUser.Role"  *@
+                <select id="role" required>
                     <option value="" disabled selected>Select your role</option> 
                     <option value="student">Student</option>
                     <option value="administrator">Administrator</option>
@@ -41,42 +56,47 @@
             <!-- University -->
             <div class="input-group">
                 <label for="university">University</label>
-                <InputText  id="university" @bind-Value="newUser.University" placeholder="Enter your university" />
+                @* @bind-Value="newUser.University" *@
+                <input  id="university"  placeholder="Enter your university" />
             </div>
 
             <!-- Major -->
             <div class="input-group">
                 <label for="major">Major</label>
-                <InputText  id="major" @bind-Value="newUser.Major" placeholder="Enter your major" />
+                @* @bind-Value="newUser.Major" *@
+                <input  id="major"  placeholder="Enter your major" />
             </div>
 
             <!-- Specialty (Optional) -->
             <div class="input-group">
                 <label for="specialty">Specialty (Optional)</label>
-                <InputText  id="specialty" @bind-Value="newUser.Specialty" placeholder="Enter your specialty (if any)" />
+                @* @bind-Value="newUser.Specialty" *@
+                <input  id="specialty"  placeholder="Enter your specialty (if any)" />
             </div>
 
             <!-- Email -->
             <div class="input-group">
                 <label for="email">Email</label>
-                <InputText  type="email" id="email" @bind-Value="newUser.Email" placeholder="Enter your email" required />
+                @* @bind-Value="newUser.Email" *@
+                <input  type="email" id="email"  placeholder="Enter your email" required />
             </div>
 
             <!-- Password -->
             <div class="input-group">
-                <label for="password">Password</label>
-                <InputText type="password" id="password"  @bind-Value="newUser.Password" placeholder="Create a password" required />
+               <label for="password">Password</label>
+                @*  @bind-Value="newUser.Password" *@
+                <input type="password" id="password"   placeholder="Create a password" required />
             </div>
 
             <!-- Submit Button -->
             <button type="submit" class="btn2">Sign Up</button>
-            <p class="switch">Already have an account? <a href="login.html">Login</a></p>
-       </EditForm>
+            <p class="switch">Already have an account? <a href="/Login">Login</a></p>
+       </form>
     </div>
     
+</body>
 
-
-@code {
+@* @code {
     private User newUser = new User();
     private string message = "";
 
@@ -85,5 +105,5 @@
         bool success = await AuthService.RegisterUser(newUser);
         message = success ? "Signup successful! Redirecting..." : "Email already exists.";
         if (success) Navigation.NavigateTo("/Login");
-    }
+    } *@
 }
