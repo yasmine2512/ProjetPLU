@@ -1,0 +1,35 @@
+.change-pic-btn {
+    margin-top: 0.5rem;
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.change-pic-btn:hover {
+    background-color: #0056b3;
+}
+
+.file-input {
+    display: none;
+}
+
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* This will center content horizontally */
+    justify-content: center; /* This will center content vertically */
+    text-align: center; /* Center text below the image */
+    margin-top: 20px;
+}
+.profile-img{
+    width: 150px;  /* Adjust the width as needed */
+    height: 150px; /* Adjust the height as needed */
+    border-radius: 50%; /* Optional: Makes the image round */
+    object-fit: cover; /* Ensures the image covers the area without stretching */
+    margin-bottom: 15px;
+}
