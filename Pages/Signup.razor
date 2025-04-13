@@ -1,8 +1,13 @@
 @page "/Signup"
 @layout HomeLayout
-@* @inject AuthService AuthService
-@inject NavigationManager Navigation *@
+@inject HttpClient Http
+@using System.Net.Http.Json
+@using System.Text.Json
+@using System.Net.Http;
 
+
+@inject UserState UserState
+@inject NavigationManager Navigation 
 
 
 <body>
@@ -23,87 +28,143 @@
     
     <div class="auth-container">
         <h2>Create an Account</h2>
-
-        @* @if (!string.IsNullOrEmpty(message))
+<br>
+         @if (!string.IsNullOrEmpty(message))
 {
     <p class="error">@message</p>
-} *@
+} 
 
-       <form Model="newUser" OnValidSubmit="HandleSignup">
-    @* <DataAnnotationsValidator /> *@
-
+       <EditForm Model="newUser" OnValidSubmit="HandleSignup">
+        <DataAnnotationsValidator /> 
+        <ValidationSummary /> 
 
             
             <!-- Full Name -->
             <div class="input-group">
-                <label for="name">Full Name</label>
-                @* @bind-Value="newUser.FullName" *@
-                <input id="name"  placeholder="Enter your full name" required />
+                <label for="name" >Full Name</label>
+         
+                <InputText  @bind-Value="newUser.FullName" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" id="name"  placeholder="Enter your full name"  required />
             </div>
 
             <!-- Role Selection -->
             <div class="input-group">
                 <label for="role">Sign up as &nbsp; &nbsp; &nbsp; </label>  
        
-                @* @bind="newUser.Role"  *@
-                <select id="role" required>
+             
+                <select style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" id="role" required @bind="newUser.Role">
                     <option value="" disabled selected>Select your role</option> 
-                    <option value="student">Student</option>
-                    <option value="administrator">Administrator</option>
+                    <option value="Student">Student</option>
+                    <option value="Administrator">Administrator</option>
                 </select>
             </div>
 
             <!-- University -->
             <div class="input-group">
-                <label for="university">University</label>
-                @* @bind-Value="newUser.University" *@
-                <input  id="university"  placeholder="Enter your university" />
+                <label for="university" >University</label>
+         
+                <InputText style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;"  id="university" @bind-Value="newUser.University" placeholder="Enter your university" />
             </div>
 
             <!-- Major -->
             <div class="input-group">
                 <label for="major">Major</label>
-                @* @bind-Value="newUser.Major" *@
-                <input  id="major"  placeholder="Enter your major" />
+               
+                <InputText  style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" id="major"  @bind-Value="newUser.Major"  placeholder="Enter your major" />
             </div>
 
             <!-- Specialty (Optional) -->
             <div class="input-group">
                 <label for="specialty">Specialty (Optional)</label>
-                @* @bind-Value="newUser.Specialty" *@
-                <input  id="specialty"  placeholder="Enter your specialty (if any)" />
+                @*  *@
+                <InputText  style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" id="specialty" @bind-Value="newUser.Specialty" placeholder="Enter your specialty (if any)" />
             </div>
 
             <!-- Email -->
             <div class="input-group">
                 <label for="email">Email</label>
-                @* @bind-Value="newUser.Email" *@
-                <input  type="email" id="email"  placeholder="Enter your email" required />
+                @*  *@
+                <InputText style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;"  type="email" id="email" @bind-Value="newUser.Email" placeholder="Enter your email" required />
             </div>
 
             <!-- Password -->
             <div class="input-group">
                <label for="password">Password</label>
-                @*  @bind-Value="newUser.Password" *@
-                <input type="password" id="password"   placeholder="Create a password" required />
+                @*   *@
+                <InputText style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" type="password" id="password" @bind-Value="newUser.Password"  placeholder="Create a password" required />
             </div>
-
+             @* *@
             <!-- Submit Button -->
             <button type="submit" class="btn2">Sign Up</button>
             <p class="switch">Already have an account? <a href="/Login">Login</a></p>
-       </form>
+       </EditForm>
     </div>
     
 </body>
 
-@* @code {
-    private User newUser = new User();
-    private string message = "";
 
+
+    @code {
+
+       
+ 
+    public enum UserRole
+{
+    Student,
+    Administrator
+}
+    
+    public class User
+    {
+        public int UserID { get; set; } // Database generated
+        public  string FullName { get; set; }
+        public  string Role { get; set; }
+        public  string University { get; set; }
+        public  string Major { get; set; }
+        public string? Specialty { get; set; }
+        public  string Email { get; set; }
+        public  string Password { get; set; }
+
+        
+    }
+
+    // Instantiate a new User object bound to the form.
+    private User newUser = new User();
+    private string message;
+    // This method is executed when the form is validly submitted.
     private async Task HandleSignup()
     {
-        bool success = await AuthService.RegisterUser(newUser);
-        message = success ? "Signup successful! Redirecting..." : "Email already exists.";
-        if (success) Navigation.NavigateTo("/Login");
-    } *@
+        message = "Submitting...";
+         try
+        {
+            Console.WriteLine(JsonSerializer.Serialize(newUser));
+         
+
+            var response = await Http.PostAsJsonAsync("http://localhost:5110/api/users", newUser);
+            if (response.IsSuccessStatusCode)
+            {
+                // Successfully added user
+                Console.WriteLine("User created!");
+                 message = "User created successfully!";
+                //  UserState.SetUser(newUser);
+                 Navigation.NavigateTo("/profile");
+            }
+            else
+            {
+                // Handle failure
+                var errorDetails = await response.Content.ReadAsStringAsync();
+    Console.WriteLine($"Error creating user: {response.StatusCode}");
+    Console.WriteLine($"Details: {errorDetails}");
+                Console.WriteLine("Error creating user");
+                message = $"Error: {response.StatusCode}";
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log error
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
 }
+
+
+       
