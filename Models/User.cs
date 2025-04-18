@@ -9,4 +9,5 @@ public class User
     public string Major { get; set; }
     public string University { get; set; }
     public string Specialty { get; set; }
+    public string? PicturePath { get; set; }
 }
