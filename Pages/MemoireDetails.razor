@@ -1,0 +1,68 @@
+@page "/memoire/{MemoireID:int}"
+@using Memoireclass.Models
+@inject HttpClient Http
+
+<h3>@memoire?.Title</h3>
+
+@if (memoire is null)
+{
+    <p>Chargement en cours...</p>
+}
+else
+{
+    <div class="mb-4">
+        <p><strong>Auteur :</strong> @memoire.AuthorName</p>
+        <p><strong>Spécialité :</strong> @memoire.Field</p>
+        <p><strong>Mots-clés :</strong> @memoire.Keywords</p>
+        <p><strong>Date :</strong> @memoire.Date.ToShortDateString()</p>
+    </div>
+
+    <h4>📚 Thèses similaires</h4>
+    @if (similarMemoires.Count == 0)
+    {
+        <p>Aucune thèse similaire trouvée.</p>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var item in similarMemoires)
+            {
+                <div class="col-md-6 mb-3">
+                    <div class="card shadow-sm p-3 rounded-3">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Title</h5>
+                            <p class="card-text">
+                                <strong>Auteur :</strong> @item.AuthorName<br />
+                                <strong>Spécialité :</strong> @item.Field<br />
+                                <strong>Date :</strong> @item.Date.ToShortDateString()
+                            </p>
+                            <a class="btn btn-primary btn-sm" href="/memoire/@item.MemoireID">Voir</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+}
+
+@code {
+    [Parameter]
+    public int MemoireID { get; set; }
+
+    private Memoire? memoire;
+    private List<Memoire> similarMemoires = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            int memoireId = 3; // ← c’est l’ID du mémoire que tu veux récupérer
+            var response = await Http.GetFromJsonAsync<Memoire>($"api/memoires/{memoireId}");
+            similarMemoires = await Http.GetFromJsonAsync<List<Memoire>>($"/api/search/similar/{MemoireID}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Erreur lors du chargement des données : " + ex.Message);
+        }
+    }
+}
