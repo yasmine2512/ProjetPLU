@@ -41,7 +41,9 @@ else
              alt="Professor"
              style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" />
 
-        <h4 style="margin: 0; font-weight: 600;">@memoire.ProfessorName</h4>
+      <h4> <a href="@($"/profile/{memoire.ProfessorID}")" style="text-decoration: none; color: black; font-weight: 600;">
+    @memoire.ProfessorName
+</a></h4>
     </div>
 
     <!-- Right: Date -->
@@ -90,7 +92,9 @@ else
                                     <img src="@($"http://localhost:5110/{comment.PicturePath ?? "emptyimage.jpg"}")"
                                          alt="User"
                                          style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;" />
-                                    <strong>@comment.FullName</strong>
+                                    <a href="@($"/profile/{comment.UserID}")" style="text-decoration: none; color: black; font-weight: 600;">
+                                        @comment.FullName
+                                    </a>
                                     <p style="font-size: 0.875rem; color: gray;">@comment.Date.ToShortDateString()</p>
                                 </div>
                                 <p>@comment.Text</p>
