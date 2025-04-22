@@ -1,1 +1,60 @@
+@page "/search"
+@inject HttpClient Http
+
+<h3>Search Suggestions</h3>
+
+<input value="@searchText" @oninput="OnInput" placeholder="Type to search..." />
+
+@if (suggestions.Any())
+{
+    <ul>
+        @foreach (var s in suggestions)
+        {
+            <li>@s.Title - @s.AuthorName</li>
+        }
+    </ul>
+}
+
+@code {
+    private string searchText = string.Empty;
+    private List<Suggestion> suggestions = new();
+    private System.Timers.Timer debounceTimer;
+
+    public class Suggestion
+    {
+        public string Title { get; set; }
+        public string AuthorName { get; set; }
+    }
+
+    private void OnInput(ChangeEventArgs e)
+    {
+        searchText = e.Value?.ToString() ?? "";
+
+        // Stop previous timer if it exists
+        debounceTimer?.Stop();
+
+        // Set up a new timer to debounce the input
+        debounceTimer = new System.Timers.Timer(400); // 400ms debounce time
+        debounceTimer.Elapsed += async (s, args) =>
+        {
+            debounceTimer?.Stop(); // Stop the timer to avoid multiple calls
+            await InvokeAsync(PerformSearch); // Perform the search
+        };
+        debounceTimer.Start(); // Start the timer
+    }
+
+    // Perform search by calling the backend API
+    private async Task PerformSearch()
+    {
+        if (!string.IsNullOrWhiteSpace(searchText))
+        {
+            suggestions = await Http.GetFromJsonAsync<List<Suggestion>>(
+                $"http://localhost:5110/api/search/suggestions?term={searchText}");
+        }
+        else
+        {
+            suggestions.Clear();
+        }
+    }
+}
 
