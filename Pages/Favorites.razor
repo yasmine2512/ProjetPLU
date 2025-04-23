@@ -93,20 +93,29 @@ else
                     {
                         @foreach (var comment in comments)
                         {
-                            <div class="comment">
-                                <div style="display: flex; gap: 10px; align-items: center;">
-                                    <img src="@($"http://localhost:5110/{comment.PicturePath ?? "emptyimage.jpg"}")"
-                                         alt="User"
-                                         style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;" />
-                                    <strong>@comment.FullName</strong>
-                                    <p style="font-size: 0.875rem; color: gray;">@comment.Date.ToShortDateString()</p>
-                                </div>
-                                <p>@comment.Text</p>
-                            </div>
-                        }}else
-                            {
-                             <p>No comments available</p>
-                            }
+                 <div class="comment">
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    @if (!string.IsNullOrEmpty(comment.PicturePath ))
+                {
+                     <img src="@($"http://localhost:5110/{comment.PicturePath}")"
+                                alt="User"
+                               style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;" />
+                }
+                else
+                {
+                 <img src="@UserImage" alt="Profile Picture"  style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" />
+ 
+                }
+                                   
+                 <strong>@comment.FullName</strong>
+                 <p style="font-size: 0.875rem; color: gray;">@comment.Date.ToShortDateString()</p>
+                 </div>
+                 <p>@comment.Text</p>
+                  </div>
+                }}else
+                  {
+                   <p>No comments available</p>
+                  }
         </div>
                 }
 
