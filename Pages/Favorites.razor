@@ -38,9 +38,16 @@ else
 <div class="rounded-xl" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; ">
     <!-- Left: Profile picture and name -->
     <div style="display: flex; align-items: center; gap: 10px;">
-        <img src="@($"http://localhost:5110/{memoire.Memoire.ProfessorPicturePath ?? "emptyimage.jpg"}")"
-             alt="Professor"
-             style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" />
+             @if (!string.IsNullOrEmpty(memoire.Memoire.ProfessorPicturePath))
+{ 
+<img src="@($"http://localhost:5110/{memoire.Memoire.ProfessorPicturePath}")" alt="Profile Picture"  style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" />
+}
+ else
+{
+    
+    <img src="@UserImage" alt="Profile Picture" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" />
+ 
+} 
 
         <h4 style="margin: 0; font-weight: 600;">@memoire.Memoire.ProfessorName</h4>
     </div>
@@ -110,14 +117,7 @@ else
 }
 
 @code {
-
-    @* private List<Memoire> memoires;
-
-    protected override async Task OnInitializedAsync()
-    {
-        memoires = await MemoireService.GetAllMemoiresAsync();
-    } *@
-
+   private string UserImage = "emptyimage.jpg";  
     private List<Favorite> memoires;
     private Memoire selectedMemoire;
     private List<CommentDto> comments = new List<CommentDto>(); 
@@ -148,7 +148,7 @@ else
         // Fetch comments for the selected Memoire
         comments = await Http.GetFromJsonAsync<List<CommentDto>>($"api/comment/memoire/{memoire.MemoireID}");
         StateHasChanged();
-        Console.WriteLine($"Fetched {comments?.Count} comments for Memoire {memoire.MemoireID}");
+         Console.WriteLine($"Fetched {comments?.Count} comments for Memoire {memoire.MemoireID}");
         Console.WriteLine("Comments list: " + JsonSerializer.Serialize(comments));
         // Check if no comments were found
         if (comments == null || !comments.Any())
