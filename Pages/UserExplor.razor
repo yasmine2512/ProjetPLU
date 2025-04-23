@@ -32,15 +32,22 @@ else
 {
     <div class="grid grid-cols-1 gap-4 m-2">
         @foreach (var memoire in memoires)
-        {<div class="thesis-card p-4 bg-white rounded-xl shadow-lg m-3">
+        {<div class="thesis-card p-4 bg-white form-control mb-3 shadow-lg m-3">
           
 <div class="rounded-xl" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; ">
     <!-- Left: Profile picture and name -->
     <div style="display: flex; align-items: center; gap: 10px;">
-        <img src="@($"http://localhost:5110/{memoire.ProfessorPicturePath ?? "emptyimage.jpg"}")"
+     @if (!string.IsNullOrEmpty(memoire.ProfessorPicturePath ))
+                {
+<img src="@($"http://localhost:5110/{memoire.ProfessorPicturePath}")"
              alt="Professor"
              style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" />
-
+                }
+                else
+                {
+                 <img src="@UserImage" alt="Profile Picture"  style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" />
+                }
+        
       <h4> <a href="@($"/profile/{memoire.ProfessorID}")" style="text-decoration: none; color: black; font-weight: 600;">
     @memoire.ProfessorName
 </a></h4>
@@ -89,9 +96,17 @@ else
                         {
                             <div class="comment">
                                 <div style="display: flex; gap: 10px; align-items: center;">
-                                    <img src="@($"http://localhost:5110/{comment.PicturePath ?? "emptyimage.jpg"}")"
+                                     @if (!string.IsNullOrEmpty(comment.PicturePath))
+                {
+                    <img src="@($"http://localhost:5110/{comment.PicturePath}")"
                                          alt="User"
-                                         style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;" />
+                                         style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;" />  
+                }
+                else
+                {
+                 <img src="@UserImage" alt="Profile Picture"  style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;" />
+ 
+                }
                                     <a href="@($"/profile/{comment.UserID}")" style="text-decoration: none; color: black; font-weight: 600;">
                                         @comment.FullName
                                     </a>
@@ -113,12 +128,7 @@ else
 }
 
 @code {
-    @* private List<Memoire> memoires;
-
-    protected override async Task OnInitializedAsync()
-    {
-        memoires = await MemoireService.GetAllMemoiresAsync();
-    } *@
+   private string UserImage = "emptyimage.jpg"; // Default image
 
     private List<Memoire> memoires;
     private Memoire selectedMemoire;
@@ -173,11 +183,11 @@ else
         {
             @* newComment.Date = DateTime.Now;*@
             newComment.MemoireID = selectedMemoire.MemoireID; 
+            
 
             if (UserState.CurrentUser != null)
             {
               newComment.UserID = UserState.CurrentUser.UserID; 
-             
             }
             var json = JsonSerializer.Serialize(newComment);
         Console.WriteLine("Comment being sent: " + json);
