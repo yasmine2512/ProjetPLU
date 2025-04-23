@@ -228,7 +228,7 @@ else
 
     private User user;
     List<Memoire> userTheses;
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         user = await Http.GetFromJsonAsync<User>($"api/users/{userId}");
       userTheses = await Http.GetFromJsonAsync<List<Memoire>>($"api/these/user/{userId}");
