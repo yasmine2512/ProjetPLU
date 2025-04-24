@@ -100,22 +100,25 @@ else
      @if (user.Role == "Administrator")
     {
     <br>
+    <br>
     <hr>
     <br>
   <h2> &nbsp; &nbsp; Theses</h2>
 @if (userTheses == null)
 {
-    <p>Loading...</p>
+    <p class="d-flex justify-content-center align-items-center">Loading...</p>
+     <br>
 }
 else if (userTheses.Count == 0)
-{
-    <p>No theses found.</p>
+{ 
+    <p class="d-flex justify-content-center align-items-center"> No theses found.</p>
+    <br>
 }
 else
 {
     <div class="grid grid-cols-1 gap-4 m-2">
         @foreach (var memoire in userTheses)
-        {<div class="thesis-card p-4 bg-white rounded-xl shadow-lg m-3">
+        {<div class="thesis-card p-4 bg-white shadow-lg m-3 border rounded">
           
 <div class="rounded-xl" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; ">
     <!-- Left: Profile picture and name -->
@@ -190,10 +193,14 @@ else
                  <img src="@UserImage" alt="Profile Picture"  style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;" />
  
                 }
-                                    
-                                    <a href="@($"/profile/{comment.UserID}")" style="text-decoration: none; color: black; font-weight: 600;">
+                                    @if(comment.UserID == UserState.CurrentUser.UserID){
+                    <a href="@($"/profile")" style="text-decoration: none; color: black; font-weight: 600;">
                                         @comment.FullName
                                     </a>
+                }else{
+                                    <a href="@($"/profile/{comment.UserID}")" style="text-decoration: none; color: black; font-weight: 600;">
+                                        @comment.FullName
+                                    </a>}
                                     <p style="font-size: 0.875rem; color: gray;">@comment.Date.ToShortDateString()</p>
                                 </div>
                                 <p>@comment.Text</p>
@@ -205,7 +212,6 @@ else
         </div>
                 }
     </div>
-     <br>
         }
     </div>
 }
@@ -298,9 +304,5 @@ private async Task ShowComments(Memoire memoire)
         await ShowComments(selectedMemoire);
         }
     }
-
-     
-
-
 
 }
