@@ -1,20 +1,23 @@
 @page "/memoire/{MemoireID:int}"
+@layout MainLayout
 @using Memoireclass.Models
 @inject HttpClient Http
 
-<h3>@memoire?.Title</h3>
+
 
 @if (memoire is null)
 {
     <p>Chargement en cours...</p>
 }
 else
-{
+{<h3>@memoire.Title</h3>
     <div class="mb-4">
         <p><strong>Auteur :</strong> @memoire.AuthorName</p>
         <p><strong>Spécialité :</strong> @memoire.Field</p>
         <p><strong>Mots-clés :</strong> @memoire.Keywords</p>
         <p><strong>Date :</strong> @memoire.Date.ToShortDateString()</p>
+         <embed src="@($"http://localhost:5110/{memoire.FilePath}")" type="application/pdf" width="100%" height="400px" />
+         
     </div>
 
     <h4>📚 Thèses similaires</h4>
@@ -49,16 +52,15 @@ else
     [Parameter]
     public int MemoireID { get; set; }
 
-    private Memoire? memoire;
+    private Memoire memoire;
     private List<Memoire> similarMemoires = new();
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         try
         {
-            int memoireId = 3; // ← c’est l’ID du mémoire que tu veux récupérer
-            var response = await Http.GetFromJsonAsync<Memoire>($"api/memoires/{memoireId}");
-            similarMemoires = await Http.GetFromJsonAsync<List<Memoire>>($"/api/search/similar/{MemoireID}");
+         memoire = await Http.GetFromJsonAsync<Memoire>($"api/these/{MemoireID}");
+            similarMemoires = await Http.GetFromJsonAsync<List<Memoire>>($"api/search/similar/{MemoireID}");
         }
         catch (Exception ex)
         {
