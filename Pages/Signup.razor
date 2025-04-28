@@ -4,8 +4,7 @@
 @using System.Net.Http.Json
 @using System.Text.Json
 @using System.Net.Http;
-
-
+@using platformApp.Models
 @inject UserState UserState
 @inject NavigationManager Navigation 
 
@@ -105,30 +104,18 @@
 
     @code {
 
-       
- 
-    public enum UserRole
+public class SignupModel
 {
-    Student,
-    Administrator
+    public string FullName { get; set; }
+    public string Role { get; set; }
+    public string University { get; set; }
+    public string Major { get; set; }
+    public string? Specialty { get; set; }
+    public string Email { get; set; }
+    public string Password { get; set; }
 }
-    
-    public class User
-    {
-        public int UserID { get; set; } // Database generated
-        public  string FullName { get; set; }
-        public  string Role { get; set; }
-        public  string University { get; set; }
-        public  string Major { get; set; }
-        public string? Specialty { get; set; }
-        public  string Email { get; set; }
-        public  string Password { get; set; }
-
-        
-    }
-
     // Instantiate a new User object bound to the form.
-    private User newUser = new User();
+     private SignupModel newUser = new SignupModel();
     private string message;
     // This method is executed when the form is validly submitted.
     private async Task HandleSignup()
@@ -145,7 +132,16 @@
                 // Successfully added user
                 Console.WriteLine("User created!");
                  message = "User created successfully!";
-                //  UserState.SetUser(newUser);
+                  var user = new User
+                     {
+                      FullName = newUser.FullName,
+                      Role = newUser.Role,
+                      University = newUser.University,
+                         Major = newUser.Major,
+                         Specialty = newUser.Specialty,
+                      Email = newUser.Email
+                        };
+                 UserState.SetUser(user); 
                  Navigation.NavigateTo("/profile");
             }
             else
@@ -166,5 +162,3 @@
     }
 }
 
-
-       
