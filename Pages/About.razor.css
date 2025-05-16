@@ -1,120 +1,318 @@
-/* Global Styles */
-body {
-    font-family: Arial, sans-serif;
-    margin: 5%;
-    padding: 5px;
-    background-color: hsl(0, 0%, 96%);
-}
-
-/* Header */
-header {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to bottom right, #e0eafc, #cfdef3) !important;
+    color: #333;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  main, section, div {
+    background: transparent;
+  }
+  
+  
+  /* Header */
+  header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #004080;
+    background: #001f54;
+    /* padding: 25px 60px; */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    /* position: relative; */
+    /* z-index: 10; */
     color: white;
-    padding: 15px 50px;
-}
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-nav ul {
+        padding: 20px 50px;
+    animation: fadeInHeader 1s ease-in-out; /* Animation corrigÃ©e */
+  }
+  
+    header:hover {
+        background: #003366; /* Hover effect on the header */
+    }
+  
+  .logo {
+    font-size: 32px;
+    color: white;
+    font-weight: 700;
+    letter-spacing: 2px;
+    transition: color 0.3s ease-in-out;
+  }
+  
+    .logo:hover {
+        color: #fbbf24; /* Hover effect on logo */
+    }
+  
+  nav ul {
     list-style: none;
     display: flex;
-    gap: 20px;
-}
-
-nav ul li {
-    display: inline;
-   align-content: center; 
-    vertical-align: middle;
-    margin-top: 8px;
-
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.active {
-    text-decoration: underline;
-}
-
-.btn {
-    background: #ffcc00;
-    padding: 8px 15px;
-    border-radius: 5px;
-    color: black;
-}
-
-/* Hero Section */
-.about-hero {
-    text-align: center;
-    padding: 80px 20px;
-    background: url('https://source.unsplash.com/1600x900/?library,education') center/cover no-repeat;
-    color: black;
-}
-
-.about-hero h1 {
-    font-size: 36px;
-}
-
-.about-hero p {
-    font-size: 18px;
-}
-
-/* About Content */
-.about-content {
+    gap: 35px;
+  }
+  nav ul li{
+    align-content: center; 
+      vertical-align: middle;
+  }
+  
+    nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 500;
+        position: relative;
+        transition: color 0.3s ease-in-out;
+    }
+  
+        nav ul li a::after {
+            content: '';
+            width: 0%;
+            height: 2px;
+            background: white;
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            transition: width 0.4s;
+        }
+  
+        nav ul li a:hover {
+            color: white;
+        }
+  
+       nav ul li a:hover::after {
+                width: 100%;
+            }
+  
+  .btn {
     background: white;
-    padding: 50px;
+    color: #001f54;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: bold;
+    transition: background 0.3s, transform 0.2s;
+    cursor: pointer;
+    border: 1px solid #001f54;
+  }
+  
+    .btn:hover {
+        background: #f0f0f0;
+        color: #001f54;
+        transform: scale(1.05); /* Slight scale effect on hover */
+    }
+  
+    .btn:active {
+        transform: scale(0.98); /* Slight shrink effect on click */
+    }
+  
+  /* Hero Section */
+  .about-hero {
+    /* background: transparent !important; */
+    background: linear-gradient(to bottom right, #e0eafc, #cfdef3) !important;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-}
+    color: #fff;
+    animation: fadeIn 2s ease-in-out;
+    position: relative;
+    background-attachment: fixed;
+  }
+  
+    .about-hero h1 {
+        font-size: 50px;
+        margin-bottom: 20px;
+        letter-spacing: 3px;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        animation: slideUp 1s ease-out;
+        color: #001f54;
+    }
+  
+    .about-hero p {
+        font-size: 24px;
+        margin-bottom: 40px;
+        letter-spacing: 1px;
+        animation: fadeInText 1.5s ease-out;
+        color: #001f54;
+    }
+  
+    .about-content {
+        background: white;
+        padding: 50px;
+        text-align: center;
+    }
+    
+    .about-content h2 {
+        color: #001f54;
+    }
+    
+    .container {
+        max-width: 800px;
+        margin: auto;
+    }
+    
+    .features-list {
+        text-align: left;
+        list-style: none;
+        padding: 0;
+    }
+    
+    .features-list li {
+        margin: 10px 0;
+        font-size: 18px;
+    }
 
-.about-content h2 {
-    color: #004080;
-}
 
-.container {
-    max-width: 800px;
-    margin: auto;
-}
+  
 
-.features-list {
-    text-align: left;
-    list-style: none;
-    padding: 0;
-}
-
-.features-list li {
-    margin: 10px 0;
-    font-size: 18px;
-}
-
-/* Footer */
-footer {
-    background: #004080;
+  
+ 
+  
+  /* Footer */
+  footer {
+    background: #001f54;
     color: white;
     text-align: center;
-    padding: 20px;
-    margin-top: 20px;
-}
-
-footer ul {
-    list-style: none;
-    padding: 0;
-}
-
-footer ul li {
-    display: inline;
-    margin: 0 10px;
-}
-
-footer ul li a {
-    color: white;
-    text-decoration: none;
-}
+    padding: 40px 20px;
+    margin-top: 80px;
+    position: relative;
+    opacity: 0;
+    animation: fadeInFooter 1.5s ease-in-out forwards;
+  }
+  
+    footer p {
+        margin-bottom: 15px;
+        font-size: 16px;
+    }
+  
+    footer ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+  
+        footer ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease-in-out;
+        }
+  
+            footer ul li a:hover {
+                color: #f0f0f0;
+                text-decoration: underline;
+            }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+  
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+  
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInText {
+    from {
+        opacity: 0;
+    }
+  
+    to {
+        opacity: 1;
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+  
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInHeader {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+  
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInDescription {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+  
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInFooter {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+  
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        background: #001f54;
+        padding: 20px;
+        display: none;
+    }
+  
+    .hero h1 {
+        font-size: 42px;
+    }
+  
+    .hero p {
+        font-size: 18px;
+    }
+  
+    .search-bar {
+        flex-direction: column;
+    }
+  
+    footer {
+        padding: 30px 15px;
+    }
+  }
+  
