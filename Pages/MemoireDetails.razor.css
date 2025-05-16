@@ -1,0 +1,91 @@
+.bttn{
+    background-color: #002855 ;
+    color: white;
+}
+.bttn:hover{
+    background-color:  #0056b3;
+    color: white;
+}
+.bi-trash-nav-menu {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='red' class='bi bi-trash-fill' viewBox='0 0 16 16'%3E%3Cpath d='M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-block; /* To allow setting width and height if needed */
+  width: 16px;
+  height: 16px;
+}
+.comment {
+    margin-bottom: 2px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    background-color: linear-gradient(to bottom right, #e0eafc, #cfdef3); 
+    max-height: 80px;
+}
+
+.thesis-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.thesis-type {
+    background: linear-gradient(to bottom right, #e0eafc, #cfdef3); 
+    color: #002855;
+    padding: 5px 10px;
+    border-radius: 30px;
+    font-size: 0.8em;
+}
+.card-body {
+    padding: 25px;
+}
+
+.thesis-info {
+    color: #555;
+    font-size: 1em;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.thesis-info svg {
+    fill: #aaa;
+width: 24px; 
+ height: 24px; 
+}
+
+.card-footer {
+    padding: 15px;
+    border-top: 1px solid #ddd;
+    text-align: center;
+}
+.keyword{
+    background-color: #0056b3;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 30px;
+    font-size: 0.8em;
+}
+.pdf-link-button {
+    padding: 8px 16px;
+    font-size: 0.9em;
+    background-color: #002855;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    text-align: center;
+     margin: 0 auto; 
+     display: table;
+}
+.pdf-link-button:hover{
+   background-color: #0056b3;
+}
