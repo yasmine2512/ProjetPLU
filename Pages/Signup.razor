@@ -132,7 +132,7 @@ public class SignupModel
                 // Successfully added user
                 Console.WriteLine("User created!");
                  message = "User created successfully!";
-                  var user = new User
+                  @* var user = new User
                      {
                       FullName = newUser.FullName,
                       Role = newUser.Role,
@@ -140,8 +140,19 @@ public class SignupModel
                          Major = newUser.Major,
                          Specialty = newUser.Specialty,
                       Email = newUser.Email
-                        };
-                 UserState.SetUser(user); 
+                        }; *@
+    var createdUser = await response.Content.ReadFromJsonAsync<User>();
+if (createdUser != null)
+{
+    UserState.SetUser(createdUser); 
+    Navigation.NavigateTo("/profile");
+}
+else
+{
+    Console.WriteLine("Failed to read user from response.");
+    message = "Signup succeeded but user data could not be loaded.";
+}
+                 UserState.SetUser(createdUser); 
                  Navigation.NavigateTo("/profile");
             }
             else
@@ -161,4 +172,6 @@ public class SignupModel
         }
     }
 }
+
+
 
