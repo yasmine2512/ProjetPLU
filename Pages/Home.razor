@@ -1,5 +1,6 @@
 @page "/"
 @layout HomeLayout
+@inject NavigationManager NavigationManager
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,7 +10,7 @@
 </head>
 <body>
 
-    <!-- Navigation Bar -->
+     <!-- Navigation Bar -->
     <header>
         <div class="logo">ThesisHub</div>
         <nav>
@@ -28,13 +29,14 @@
         <br>
         <br>
         <h1>Discover, Explore, and Share Academic Knowledge</h1>
-        <p>Access Master's and Doctoral Theses from Universities Worldwide</p>
+        <p>Access Master's and Doctoral Theses </p>
         <br>
         <div class="search-bar">
-            <input type="text" placeholder="Search by Title, Keywords, or University">
-            <button>Search</button>
+            <input type="text" @bind="searchTerm" placeholder="Search by Title, Keywords, or University">
+            <button @onclick="HandleSearch">Search</button>
         </div>
         <br><br><br>
+        <br>
     </section>
 
     <section class="website-description">
@@ -42,7 +44,7 @@
             <h1>Welcome to ThesisHub – The Ultimate Thesis Repository</h1>
             <p>
                 Our platform is designed to help students, researchers, and academics easily access and explore 
-                master’s and doctoral theses from universities worldwide. Whether you are looking for inspiration, 
+                master’s and doctoral theses from Our University. Whether you are looking for inspiration, 
                 conducting research, or searching for a specific thesis, our extensive database makes it simple 
                 to find relevant academic work.
             </p>
@@ -57,13 +59,35 @@
     <footer>
         <p>&copy; 2025 ThesisHub. All rights reserved.</p>
         <ul>
-            <li><a href="#">About</a></li>
+            <li><a href="/About">About</a></li>
             <li><a href="#">Privacy Policy</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
-    </footer>
+    </footer> 
+
 
 </body>
 </html>
+@code {
+    private string searchTerm = "";
 
-      
+    private void HandleSearch()
+    {
+        if (!string.IsNullOrEmpty(searchTerm.Trim()))
+        {
+            NavigationManager.NavigateTo($"/Explore?search={Uri.EscapeDataString(searchTerm)}");
+        }
+        else
+        {
+             NavigationManager.NavigateTo($"/Explore");
+        }
+    }
+
+      private void HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            HandleSearch();
+        }
+    }
+}
